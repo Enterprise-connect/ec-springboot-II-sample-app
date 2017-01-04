@@ -1,3 +1,8 @@
+/**
+ * @author Avneesh Srivastava
+ * @email avneesh.srivastava@ge.com
+ *
+ */
 package com.ge.ec;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -5,10 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
-
 import com.ge.ec.util.ApplicationInitializer;
-
-
 
 @SpringBootApplication
 public class ECClientDemoApplication {

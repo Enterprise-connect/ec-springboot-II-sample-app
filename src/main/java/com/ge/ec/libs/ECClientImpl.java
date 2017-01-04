@@ -11,6 +11,12 @@
  *
  */
 
+/**
+ * Code Modifications Made For Matching New Version Of ECAgent
+ * @author Avneesh Srivastava
+ * @email avneesh.srivastava@ge.com
+ *
+ */
 package com.ge.ec.libs;
 
 import java.io.DataOutputStream;

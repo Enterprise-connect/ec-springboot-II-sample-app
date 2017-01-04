@@ -1,3 +1,8 @@
+/**
+ * @author Avneesh Srivastava
+ * @email avneesh.srivastava@ge.com
+ *
+ */
 package com.ge.ec.util;
 
 import org.springframework.beans.factory.annotation.Value;

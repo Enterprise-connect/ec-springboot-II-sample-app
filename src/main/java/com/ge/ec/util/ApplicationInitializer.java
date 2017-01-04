@@ -1,3 +1,8 @@
+/**
+ * @author Avneesh Srivastava
+ * @email avneesh.srivastava@ge.com
+ *
+ */
 package com.ge.ec.util;
 
 import org.slf4j.Logger;
@@ -8,12 +13,6 @@ import org.springframework.cloud.CloudException;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-
-/**
- * @author Danish Khan
- *
- */
 
 public class ApplicationInitializer implements ApplicationContextInitializer<AnnotationConfigEmbeddedWebApplicationContext> {
 
