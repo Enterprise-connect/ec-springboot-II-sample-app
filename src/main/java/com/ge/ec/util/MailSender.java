@@ -27,8 +27,8 @@ public class MailSender {
 			mailSender.setHost("localhost");
 			mailSender.setPort(7990);
 			mailSender.setProtocol("smtp");
-			mailSender.setUsername("username");
-			mailSender.setPassword("password");
+			mailSender.setUsername("502689453");
+			mailSender.setPassword("Avneesh4986Sri");
 		}
 		return mailSender;
 	}

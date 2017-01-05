@@ -33,9 +33,12 @@ public class CommandCreator {
     private String websocket;
     @Value("${ec.proxy}")
     private String pxy;
+    @Value("${ec.lpt}")
+    private String lpt;
 	public String commandCreate(String environmentType){
 		ecCommand = ecCommand
-					.replace("$tkn", oauthRestTemplate.getAccessToken().toString().trim())
+					/*Not needed since Auto-refresh is available*/
+					//.replace("$tkn", oauthRestTemplate.getAccessToken().toString().trim())
 					.replace("$command",environmentType.trim())
 					.replace("$oa2",tokenUrl.trim())
 					.replace("$hst",websocket.trim())
@@ -44,6 +47,7 @@ public class CommandCreator {
 					.replace("$aid",aid.trim())
 					.replace("$pxy",pxy.trim())
 					.replace("$tid",tid.trim())
+					.replace("$lpt",lpt.trim())
 					.replace("$mod",mode.trim());
 		return ecCommand;
 	}

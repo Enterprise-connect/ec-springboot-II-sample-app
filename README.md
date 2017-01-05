@@ -8,9 +8,9 @@ Enterprise-Connect Springboot Example II.
   - Please check the console for EC Agent Logs. 
   - All other APIs you can find in the controller. 
   - If you want to test the Mail API then please modify the username/password in com.ge.ec.util.MailSender and the to & from mail addresses in Controller.
-
-
+  
 #Please Note:
 	- Postgres and MS SQL Server have been tested, Oracle DB Connection is still WIP.   
+	- FTP is a WIP. 
  
   

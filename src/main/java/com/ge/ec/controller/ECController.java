@@ -7,13 +7,19 @@ package com.ge.ec.controller;
 
 import java.io.IOException;
 import java.sql.DriverManager;
+import java.util.List;
+
 import javax.mail.MessagingException;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ge.ec.ftp.ECFTPClient;
+import com.ge.ec.ftp.ECFTPServer;
 import com.ge.ec.service.DatabaseTestService;
 import com.ge.ec.service.ECService;
 import com.ge.ec.util.MailSender;
@@ -28,13 +34,19 @@ class ECController{
 
 	@Autowired
 	MailSender mailSender; 
+	
+	@Autowired
+	ECFTPServer ftpServer;
+	
+	@Autowired
+	ECFTPClient ftpClient;
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping("/sendMail")
 	String sendMail(){
 		if(ecService.isECStarted()){
 			try {
-				mailSender.sendMail("to@domain.com", "from@domain.com", "Test Mail", "Test Mail");
+				mailSender.sendMail("avneesh.srivastava@capgemini.com", "avneesh.srivastava@ge.com", "Test Mail", "Test Mail");
 				return "Mail Sent";
 			} catch (MessagingException e) {
 				System.out.println(String.format("Could Not Send Mail. Error:: %s", e.getMessage()));
@@ -74,8 +86,8 @@ class ECController{
 			JSONObject dbDetails = new JSONObject();
 			dbDetails.put("driver","oracle.jdbc.driver.OracleDriver");
 			dbDetails.put("url","jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=7990))(LOAD_BALANCE=OFF)(FAILOVER=ON)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=pnnpsp04)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC)(RETRIES=0)(DELAY=1))))");
-			dbDetails.put("username","username");
-			dbDetails.put("password","password");
+			dbDetails.put("username","SSO502702853");
+			dbDetails.put("password","Safe123cluster");
 			try{
 				System.out.println("DUAL Result: "+dbService.getOracleConnection(dbDetails).queryForObject("select (2+5) from DUAL", Long.class));
 				s="Database Connection Successful";
@@ -98,8 +110,8 @@ class ECController{
 			JSONObject dbDetails = new JSONObject();
 			dbDetails.put("driver","com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			dbDetails.put("url","jdbc:sqlserver://localhost:7990;databaseName=GTAE");
-			dbDetails.put("username","username");
-			dbDetails.put("password","password");
+			dbDetails.put("username","SSO502647803");
+			dbDetails.put("password","DbrGates$$032");
 			try{
 				DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 				System.out.println("DUAL Result: "+dbService.getSQLServerConnection(dbDetails).queryForObject("select (2+5)", Long.class));
@@ -145,6 +157,25 @@ class ECController{
 	@RequestMapping("/status")
 	String status() throws IOException {
 		return (ecService.isECStarted())?"EC Client is ok.":"EC Client was terminated.";
+	}
+	
+	@RequestMapping("/createftpserver")
+	String ftpserver() throws IOException {
+		return (ftpServer.createFtpServer())?"FTP Server Connected":"FTP Server Not Connected.";
+	}
+	@RequestMapping("/createftpclient")
+	String readFtpserver() throws IOException {
+		ftpClient.connectToServer();
+		return (ftpClient.clientStatus())?"FTP Client Connected":"FTP Client Not Connected.";
+	}
+	@RequestMapping("/disconnectftpclient")
+	String disconnectFTPClient() throws IOException {
+		ftpClient.disconnectClient();
+		return (ftpClient.clientStatus())?"FTP Client Connected":"FTP Client Not Connected.";
+	}
+	@RequestMapping("/readfilelist")
+	List<String> getAllFileNamesFromServer() throws IOException {
+		return ftpClient.getAllFileNamesFromServer();
 	}
 
 }
