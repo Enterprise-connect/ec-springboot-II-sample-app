@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ge.ec.ftp.ECFTPClient;
 import com.ge.ec.ftp.ECFTPServer;
+import com.ge.ec.mapper.CustomRowMapper;
 import com.ge.ec.service.DatabaseTestService;
 import com.ge.ec.service.ECService;
 import com.ge.ec.util.MailSender;
@@ -62,7 +63,7 @@ class ECController{
 		if(ecService.isECStarted()){
 			JSONObject dbDetails = new JSONObject();
 			dbDetails.put("driver","org.postgresql.Driver");
-			dbDetails.put("url","jdbc:postgresql://localhost:7990/Brl");
+			dbDetails.put("url","jdbc:postgresql://localhost:4500/powerdev");
 			dbDetails.put("username","postgres");
 			dbDetails.put("password","@12Igate");
 			try{
@@ -85,11 +86,11 @@ class ECController{
 			String s="";
 			JSONObject dbDetails = new JSONObject();
 			dbDetails.put("driver","oracle.jdbc.driver.OracleDriver");
-			dbDetails.put("url","jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=7990))(LOAD_BALANCE=OFF)(FAILOVER=ON)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=pnnpsp04)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC)(RETRIES=0)(DELAY=1))))");
-			dbDetails.put("username","SSO502702853");
-			dbDetails.put("password","Safe123cluster");
+			dbDetails.put("url","jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=4500))(LOAD_BALANCE=OFF)(FAILOVER=ON)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=stgbtm.cloud.ge.com)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC)(RETRIES=0)(DELAY=1))))");
+			dbDetails.put("username","sys as sysdba");
+			dbDetails.put("password","Welcome1");
 			try{
-				System.out.println("DUAL Result: "+dbService.getOracleConnection(dbDetails).queryForObject("select (2+5) from DUAL", Long.class));
+				System.out.println("DUAL Result: "+dbService.getOracleConnection(dbDetails).query("SELECT owner, table_name FROM dba_tables where rownum <= 10", new CustomRowMapper() ));
 				s="Database Connection Successful";
 
 			}catch(Exception ex){
@@ -175,7 +176,8 @@ class ECController{
 	}
 	@RequestMapping("/readfilelist")
 	List<String> getAllFileNamesFromServer() throws IOException {
-		return ftpClient.getAllFileNamesFromServer();
+		ftpClient.getDirectoryStructure();
+		return null;
 	}
 
 }

@@ -12,7 +12,7 @@
  */
 
 /**
- * Code Modifications Made For Matching New Version Of ECAgent
+ * Code Modifications Made For Matching New Versions Of ECAgent
  * @author Avneesh Srivastava
  * @email avneesh.srivastava@ge.com
  *
@@ -49,7 +49,7 @@ public class ECClientImpl implements ECClient {
 	@SuppressWarnings("resource")
 	@Override
 	public void copyAllLibraryFiles(String libraryName){
-		/*Copry Library Files*/
+		/*Copy Library Files*/
 		log.info("Copying library file for: "+libraryName);
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("files/"+libraryName).getFile());
@@ -121,9 +121,9 @@ public class ECClientImpl implements ECClient {
 			String _ec_art="";
 			if (SystemUtils.IS_OS_LINUX){
 				log.info("launch(): Linux Environment");
-				copyAllLibraryFiles("ecagent_linux");
+				copyAllLibraryFiles(LINUX_AGENT_FILE);
 				//copyAllLibraryFiles("script.sh");
-				createScriptFile("script.sh", "./ecagent_linux");
+				createScriptFile("script.sh", "./"+LINUX_AGENT_FILE);
 				_ec_art="script.sh";
 				File file = new File("./"+_ec_art);
 				String btracePath = file.getAbsolutePath();
@@ -133,7 +133,7 @@ public class ECClientImpl implements ECClient {
 				Process pr = run.exec(cmd);
 				try {
 					pr.waitFor();
-					file = new File("./ecagent_linux");
+					file = new File("./"+LINUX_AGENT_FILE);
 					btracePath = file.getAbsolutePath();
 					log.info("Linux Environemnt: CHMOD: File Path for ECAgent Linux: "+btracePath);
 					cmd = "chmod +x " + btracePath;
@@ -151,7 +151,7 @@ public class ECClientImpl implements ECClient {
 				log.info("launch(): MAC Environment");
 				copyAllLibraryFiles("ecagent_darwin");
 				//copyAllLibraryFiles("script.sh");
-				createScriptFile("script.sh", "./ecagent_darwin");
+				createScriptFile("script.sh", "./"+MAC_AGENT_FILE);
 				_ec_art="script.sh";
 				File file = new File("./"+_ec_art);
 				String btracePath = file.getAbsolutePath();
@@ -161,7 +161,7 @@ public class ECClientImpl implements ECClient {
 				Process pr = run.exec(cmd);
 				try {
 					pr.waitFor();
-					file = new File("./ecagent_darwin");
+					file = new File("./ecagent_darwin"+MAC_AGENT_FILE);
 					btracePath = file.getAbsolutePath();
 					log.info("Mac Environemnt: CHMOD: File Path for ECAgent Darwin: "+btracePath);
 					cmd = "chmod +x " + btracePath;
@@ -176,9 +176,9 @@ public class ECClientImpl implements ECClient {
 				}
 			}else if (SystemUtils.IS_OS_WINDOWS){
 				log.info("launch(): Windows Environment");
-				copyAllLibraryFiles("ecagent_windows.exe");
+				copyAllLibraryFiles(WIN_AGENT_FILE);
 				//copyAllLibraryFiles("script.bat");
-				createScriptFile("script.bat", "ecagent_windows.exe");
+				createScriptFile("script.bat", WIN_AGENT_FILE);
 				_ec_art="script.bat";
 			}
 			try {

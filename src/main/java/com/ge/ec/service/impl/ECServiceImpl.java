@@ -7,23 +7,37 @@ package com.ge.ec.service.impl;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ge.ec.libs.ECClient;
 import com.ge.ec.service.ECService;
+import com.ge.ec.util.Properties;
 @Service
 public class ECServiceImpl implements ECService {
 	
 	@Autowired
 	ECClient ecClient;
-	
+	@Autowired
+	Properties props;
 	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	@PostConstruct
 	@Override
 	public void startupECClient() {
 		try{
+			if(props.getApplyProxy().equalsIgnoreCase("true")){
+				log.info("User wants the environment to be proxied, applying the same.");
+					String proxyHost = props.getMainProxyHost();
+					String proxyPort = props.getMainProxyPort();
+					System.setProperty("http.proxyHost", proxyHost); 
+					System.setProperty("http.proxyPort", proxyPort); 
+					System.setProperty("https.proxyHost", proxyHost); 
+					System.setProperty("https.proxyPort", proxyPort);
+			}
 			log.info("Trying To Launch EC Client.");
 			ecClient.launch();
 			log.info(String.format("%s started.", ecClient.version()));

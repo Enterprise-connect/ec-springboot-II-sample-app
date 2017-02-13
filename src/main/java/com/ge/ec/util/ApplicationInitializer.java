@@ -15,14 +15,12 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 public class ApplicationInitializer implements ApplicationContextInitializer<AnnotationConfigEmbeddedWebApplicationContext> {
-
+	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-
+	
 	@Override
 	public void initialize(
 			AnnotationConfigEmbeddedWebApplicationContext applicationContext) {
-		String proxyHost = "sjc1intproxy01.crd.ge.com";
-		String proxyPort = "8080";
 		Cloud cloud = getCloud();
 		ConfigurableEnvironment appEnvironment = applicationContext
 				.getEnvironment();
@@ -30,11 +28,7 @@ public class ApplicationInitializer implements ApplicationContextInitializer<Ann
 			log.info("Cloud Environment");
 			appEnvironment.addActiveProfile("cloud");
 		}else{
-			log.info("Local Environment: Setting Proxy");
-			System.setProperty("http.proxyHost", proxyHost); 
-			System.setProperty("http.proxyPort", proxyPort); 
-			System.setProperty("https.proxyHost", proxyHost); 
-			System.setProperty("https.proxyPort", proxyPort);
+			log.info("Local Environment");
 		}
 	}
 

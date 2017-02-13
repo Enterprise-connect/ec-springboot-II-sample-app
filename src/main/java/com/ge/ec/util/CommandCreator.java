@@ -23,6 +23,8 @@ public class CommandCreator {
     private String clientSecret;
     @Value("${ec.client.command}")
     private String ecCommand;
+    @Value("${ec.client.command.proxied}")
+    private String ecCommandProxy;
     @Value("${ec.tunnelid}")
     private String tid;
     @Value("${ec.agentid}")
@@ -31,12 +33,20 @@ public class CommandCreator {
     private String mode;
     @Value("${ec.websocket}")
     private String websocket;
-    @Value("${ec.proxy}")
     private String pxy;
     @Value("${ec.lpt}")
     private String lpt;
+    @Autowired
+	Properties props;
 	public String commandCreate(String environmentType){
-		ecCommand = ecCommand
+		String appliedCommand = "";
+		if(props.getApplyProxy().equalsIgnoreCase("true")){
+			appliedCommand = ecCommandProxy;
+			pxy = props.getProxyProtocol()+"://"+props.getMainProxyHost()+":"+props.getMainProxyPort();
+		}else{
+			appliedCommand = ecCommand;
+		}
+		appliedCommand = appliedCommand
 					/*Not needed since Auto-refresh is available*/
 					//.replace("$tkn", oauthRestTemplate.getAccessToken().toString().trim())
 					.replace("$command",environmentType.trim())
@@ -49,7 +59,7 @@ public class CommandCreator {
 					.replace("$tid",tid.trim())
 					.replace("$lpt",lpt.trim())
 					.replace("$mod",mode.trim());
-		return ecCommand;
+		return appliedCommand;
 	}
 
 }
