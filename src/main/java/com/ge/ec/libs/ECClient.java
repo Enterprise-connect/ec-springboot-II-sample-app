@@ -22,9 +22,9 @@ import java.io.IOException;
 
 public interface ECClient {
 	/*Adding File Names To Simplify Development*/
-    public String LINUX_AGENT_FILE ="ecagent_linux_175";
-    public String WIN_AGENT_FILE ="ecagent_windows_175.exe";
-    public String MAC_AGENT_FILE ="ecagent_darwin_175";
+    public String LINUX_AGENT_FILE ="ecagent_linux";
+    public String WIN_AGENT_FILE ="ecagent_windows.exe";
+    public String MAC_AGENT_FILE ="ecagent_darwin";
     public boolean launch() throws IOException;
     public boolean isAlive();
     public boolean terminate() throws IOException;

@@ -149,7 +149,7 @@ public class ECClientImpl implements ECClient {
 
 			} else if(SystemUtils.IS_OS_MAC){
 				log.info("launch(): MAC Environment");
-				copyAllLibraryFiles("ecagent_darwin");
+				copyAllLibraryFiles(MAC_AGENT_FILE);
 				//copyAllLibraryFiles("script.sh");
 				createScriptFile("script.sh", "./"+MAC_AGENT_FILE);
 				_ec_art="script.sh";
@@ -161,7 +161,7 @@ public class ECClientImpl implements ECClient {
 				Process pr = run.exec(cmd);
 				try {
 					pr.waitFor();
-					file = new File("./ecagent_darwin"+MAC_AGENT_FILE);
+					file = new File("./"+MAC_AGENT_FILE);
 					btracePath = file.getAbsolutePath();
 					log.info("Mac Environemnt: CHMOD: File Path for ECAgent Darwin: "+btracePath);
 					cmd = "chmod +x " + btracePath;
@@ -177,7 +177,6 @@ public class ECClientImpl implements ECClient {
 			}else if (SystemUtils.IS_OS_WINDOWS){
 				log.info("launch(): Windows Environment");
 				copyAllLibraryFiles(WIN_AGENT_FILE);
-				//copyAllLibraryFiles("script.bat");
 				createScriptFile("script.bat", WIN_AGENT_FILE);
 				_ec_art="script.bat";
 			}
