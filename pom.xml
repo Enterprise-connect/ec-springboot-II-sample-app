@@ -5,7 +5,7 @@
 
 	<groupId>com.ge.ec.example</groupId>
 	<artifactId>ec-client-demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>ec-client-demo</name>
@@ -90,6 +90,7 @@
 			<version>1.1.1</version><!--$NO-MVN-MAN-VER$ -->
 			<type>jar</type>
 		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

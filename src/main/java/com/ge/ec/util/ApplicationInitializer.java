@@ -27,8 +27,10 @@ public class ApplicationInitializer implements ApplicationContextInitializer<Ann
 		if (cloud != null) {
 			log.info("Cloud Environment");
 			appEnvironment.addActiveProfile("cloud");
+			//Do anything in cloud environment
 		}else{
 			log.info("Local Environment");
+			//Do anything in local environment
 		}
 	}
 

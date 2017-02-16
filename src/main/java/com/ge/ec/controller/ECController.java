@@ -63,15 +63,15 @@ class ECController{
 		if(ecService.isECStarted()){
 			JSONObject dbDetails = new JSONObject();
 			dbDetails.put("driver","org.postgresql.Driver");
-			dbDetails.put("url","jdbc:postgresql://localhost:4500/powerdev");
-			dbDetails.put("username","postgres");
-			dbDetails.put("password","@12Igate");
+			dbDetails.put("url","jdbc:postgresql://localhost:4500/database");
+			dbDetails.put("username","username");
+			dbDetails.put("password","password");
 			try{
-				System.out.println("Timestamp: "+ dbService.getPostgreConnection(dbDetails).queryForObject("select now()", String.class));
-				return "Database Connection Successful";
+				String timestampFromDb = ("Timestamp: "+ dbService.getPostgreConnection(dbDetails).queryForObject("select now()", String.class));
+				return String.format("Database Connection Successful. Timestamp from DB: %s", timestampFromDb);
 			}catch(Exception ex){
 				System.out.println("Exception In checkPostgreDB()"+ ex.getMessage());
-				return "Database Connection Failed";
+				return String.format("Database Connection Failed, %s", ex.getMessage());
 			}
 		}else{
 			return "EC Client Not Started";

@@ -6,6 +6,7 @@
 package com.ge.ec.service.impl;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -25,14 +26,24 @@ public class ECServiceImpl implements ECService {
 	Properties props;
 	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
+	 public boolean verifyProxyUrl(){
+	    	try{
+	    		new URI(props.getProxyUrl());
+	    		return true;
+	    	}catch(Exception e){
+	    		return false;
+	    	}
+	    }
+	 
 	@PostConstruct
 	@Override
 	public void startupECClient() {
 		try{
-			if(props.getApplyProxy().equalsIgnoreCase("true")){
+			if(verifyProxyUrl() && props.getApplyProxy().equalsIgnoreCase("true")){
 				log.info("User wants the environment to be proxied, applying the same.");
-					String proxyHost = props.getMainProxyHost();
-					String proxyPort = props.getMainProxyPort();
+					URI proxy = new URI(props.getProxyUrl());
+					String proxyHost = proxy.getHost();
+					String proxyPort = ((Integer) proxy.getPort()).toString();
 					System.setProperty("http.proxyHost", proxyHost); 
 					System.setProperty("http.proxyPort", proxyPort); 
 					System.setProperty("https.proxyHost", proxyHost); 

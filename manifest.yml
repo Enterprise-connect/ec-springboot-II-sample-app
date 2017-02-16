@@ -4,6 +4,6 @@ applications:
     memory: 1024M
     instances: 1
     stack: cflinuxfs2
-    path: target/ec-client-demo-0.0.1-SNAPSHOT.jar
+    path: target/ec-client-demo-0.0.2.jar
     #command: bash ./ec_cf_script.sh
     buildpack: java_buildpack
