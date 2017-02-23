@@ -23,6 +23,7 @@ import com.ge.ec.ftp.ECFTPServer;
 import com.ge.ec.mapper.CustomRowMapper;
 import com.ge.ec.service.DatabaseTestService;
 import com.ge.ec.service.ECService;
+import com.ge.ec.service.impl.ECJMSServiceImpl;
 import com.ge.ec.util.MailSender;
 
 @RestController
@@ -41,7 +42,25 @@ class ECController{
 	
 	@Autowired
 	ECFTPClient ftpClient;
-
+	
+	@Autowired
+	ECJMSServiceImpl jmsService;
+	
+	@RequestMapping("/jmsService")
+	String jmsService(){
+		if(ecService.isECStarted()){
+			try {
+				jmsService.sendMessage();
+				return "Message sent.";
+			} catch (Exception e) {
+				System.out.println(String.format("Could Not Send Message. Error:: %s", e.getMessage()));
+				return "Failed To Send";
+			}
+		}else{
+			return "EC Client Not Started Yet.";
+		}
+	}
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping("/sendMail")
 	String sendMail(){
