@@ -30,6 +30,8 @@ public class CommandCreator {
     private String tid;
     @Value("${ec.agentid}")
     private String aid;
+	@Value("${ec.groupid}")
+	private String grp;
     @Value("${ec.mode}")
     private String mode;
     @Value("${ec.websocket}")
@@ -40,6 +42,14 @@ public class CommandCreator {
     private String healthcheckport;
     @Value("${ec.tokenRefreshDur}")
     private String tokenRefreshDur;
+	@Value("${ec.sst}")
+	private String sst;
+	@Value("${ec.zon}")
+	private String zon;
+	@Value("${ec.rht}")
+	private String rht;
+	@Value("${ec.rpt}")
+	private String rpt;
     @Autowired
 	Properties props;
     public boolean verifyProxyUrl(){
@@ -59,6 +69,19 @@ public class CommandCreator {
 		}else{
 			appliedCommand = appliedCommand.replace("-pxy \"$pxy\"","");
 		}
+
+		if(mode.trim().equalsIgnoreCase("server")) {
+			appliedCommand = appliedCommand
+					.replace("$sst",sst.trim())
+					.replace("$zon",zon.trim())
+					.replace("$rht",rht.trim())
+					.replace("$rpt",rpt.trim());
+		} else if(mode.trim().equalsIgnoreCase("client")) {
+			appliedCommand = appliedCommand
+					.replace("$tid",tid.trim())
+					.replace("$lpt",lpt.trim());
+		}
+
 		appliedCommand = appliedCommand
 					/*Not needed since Auto-refresh is available*/
 					//.replace("$tkn", oauthRestTemplate.getAccessToken().toString().trim())
@@ -68,8 +91,7 @@ public class CommandCreator {
 					.replace("$csc",clientSecret.trim())
 					.replace("$cid",clientId.trim())
 					.replace("$aid",aid.trim())
-					.replace("$tid",tid.trim())
-					.replace("$lpt",lpt.trim())
+					.replace("$grp",grp.trim())
 					.replace("$healthcheckport",healthcheckport.trim())
 					.replace("$tokenRefreshDur",tokenRefreshDur.trim())
 					.replace("$mod",mode.trim());
